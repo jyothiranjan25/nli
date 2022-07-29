@@ -9,7 +9,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<html>
 
 	<head>
-		<title>No Limits India | Admin Dashboard</title>
+		<title>NLI | Admin Dashboard</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="application/x-javascript">
@@ -46,7 +46,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<!--header start here-->
 					<?php include('includes/header.php'); ?>
 					<!--header end here-->
-
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="index.html">Home</a> <i class="fa fa-angle-right"></i></li>
+					</ol>
 					<!--four-grids here-->
 					<div class="four-grids">
 						<div class="col-md-3 four-grid">
@@ -159,7 +161,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="inner-block">
 
 					</div>
-
+					<!--inner block end here-->
+					<!--copy rights start here-->
+					<?php include('includes/footer.php'); ?>
 				</div>
 			</div>
 

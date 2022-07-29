@@ -1,32 +1,29 @@
 <?php
 session_start();
 error_reporting(0);
-include('includes/dbconnection.php');
+include('includes/config.php');
 if (strlen($_SESSION['login']) == 0) {
 	header('location:index.php');
 } else {
 	if (isset($_POST['submit5'])) {
-		$password = $_POST['password'];
-		$newpassword = $_POST['newpassword'];
-		$confirmpassword = $_POST['confirmpassword'];
+		$password = md5($_POST['password']);
+		$newpassword = md5($_POST['newpassword']);
 		$email = $_SESSION['login'];
-		if ($newpassword == $confirmpassword) {
-
-			$sql = mysqli_query($con, "SELECT Password FROM tblusers WHERE EmailId='$email' and Password='$password'");
-			$count = mysqli_num_rows($sql);
-			if ($count > 0) {
-
-				$query = mysqli_query($con, "UPDATE tblusers set Password='$newpassword' where EmailId='$email'");
-				if ($query) {
-					echo '<script>alert("--Your Password succesfully changed--");</script>';
-				}
-			} else {
-				$error = "";
-				echo '<script>alert("Your current password is wrong :(");</script>';
-			}
+		$sql = "SELECT Password FROM tblusers WHERE EmailId=:email and Password=:password";
+		$query = $dbh->prepare($sql);
+		$query->bindParam(':email', $email, PDO::PARAM_STR);
+		$query->bindParam(':password', $password, PDO::PARAM_STR);
+		$query->execute();
+		$results = $query->fetchAll(PDO::FETCH_OBJ);
+		if ($query->rowCount() > 0) {
+			$con = "update tblusers set Password=:newpassword where EmailId=:email";
+			$chngpwd1 = $dbh->prepare($con);
+			$chngpwd1->bindParam(':email', $email, PDO::PARAM_STR);
+			$chngpwd1->bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
+			$chngpwd1->execute();
+			$msg = "Your Password succesfully changed";
 		} else {
-
-			echo '<script>alert("New password and Confirm password do not match :(");</script>';
+			$error = "Your current password is wrong";
 		}
 	}
 
@@ -35,81 +32,108 @@ if (strlen($_SESSION['login']) == 0) {
 	<html>
 
 	<head>
-		<title>Change Password</title>
+		<title>NLI | No Limits India</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="keywords" content="No Limits India In PHP" />
+		<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+		<link href="css/style.css" rel='stylesheet' type='text/css' />
+		<link href='//fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+		<link href="css/font-awesome.css" rel="stylesheet">
+		<!-- Custom Theme files -->
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<!--animate-->
+		<link href="css/animate.css" rel="stylesheet" type="text/css" media="all">
+		<script src="js/wow.min.js"></script>
+		<script>
+			new WOW().init();
+		</script>
+		<script type="text/javascript">
+			function valid() {
+				if (document.chngpwd.newpassword.value != document.chngpwd.confirmpassword.value) {
+					alert("New Password and Confirm Password Field do not match  !!");
+					document.chngpwd.confirmpassword.focus();
+					return false;
+				}
+				return true;
+			}
+		</script>
 		<style>
-			a {
-				background-color: #FF6347;
-				color: black;
-				padding: 0.5em 1em;
-				text-decoration: none;
-				text-transform: uppercase;
-
+			.errorWrap {
+				padding: 10px;
+				margin: 0 0 20px 0;
+				background: #fff;
+				border-left: 4px solid #dd3d36;
+				-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 			}
 
-			a:hover {
-				background-color: #555;
-				cursor: pointer;
-
-			}
-
-			.center {
-				margin: auto;
-				width: 60%;
-				border: 3px solid #FF6347;
-				padding: 25px;
-				margin-top: 25px;
-				box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-
-			}
-
-			.clearfix {
-				overflow: auto;
-			}
-
-			img {
-				height: 290px;
-				width: 40%;
-				float: left;
-				margin-right: 20px;
-
+			.succWrap {
+				padding: 10px;
+				margin: 0 0 20px 0;
+				background: #fff;
+				border-left: 4px solid #5cb85c;
+				-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 			}
 		</style>
 	</head>
 
 	<body>
-
-		<?php include('includes/header.php'); ?>
-
-		<div class="center">
-			<div class="container">
-				<h3>Change Password</h3>
-				<form name="chngpwd" method="post">
-
-					<p style="width: 350px;">
-
-						<b>Current Password</b> <input type="password" name="password" class="form-control" id="exampleInputPassword1" onmouseover="this.type='text'" onmouseout="this.type='password'" placeholder="Current Password" required="">
-					</p><br>
-
-					<p style="width: 350px;">
-						<b>New Password</b>
-						<input type="password" class="form-control" name="newpassword" id="newpassword" onmouseover="this.type='text'" onmouseout="this.type='password'" placeholder="New Password" required="">
-					</p><br>
-
-					<p style="width: 350px;">
-						<b>Confirm Password</b>
-						<input type="password" class="form-control" onmouseover="this.type='text'" onmouseout="this.type='password'" name="confirmpassword" id="confirmpassword" placeholder="Confrim Password" required="">
-					</p><br>
-
-					<p style="width: 350px;">
-						<button type="submit" name="submit5" class="btn-primary btn">Change</button>
-					</p>
-				</form>
-
-
+		<!-- top-header -->
+		<div class="top-header">
+			<?php include('includes/header.php'); ?>
+			<div class="banner-1 ">
+				<div class="container">
+					<h1 class="wow zoomIn animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: zoomIn;">NLI-No Limits India</h1>
+				</div>
 			</div>
-		</div>
+			<!--- /banner-1 ---->
+			<!--- privacy ---->
+			<div class="privacy">
+				<div class="container">
+					<h3 class="wow fadeInDown animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInDown;">Change Password</h3>
+					<form name="chngpwd" method="post" onSubmit="return valid();">
+						<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+						<p style="width: 350px;">
+
+							<b>Current Password</b> <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Current Password" required="">
+						</p>
+
+						<p style="width: 350px;">
+							<b>New Password</b>
+							<input type="password" class="form-control" name="newpassword" id="newpassword" placeholder="New Password" required="">
+						</p>
+
+						<p style="width: 350px;">
+							<b>Confirm Password</b>
+							<input type="password" class="form-control" name="confirmpassword" id="confirmpassword" placeholder="Confrim Password" required="">
+						</p>
+
+						<p style="width: 350px;">
+							<button type="submit" name="submit5" class="btn-primary btn">Change</button>
+						</p>
+					</form>
+
+
+				</div>
+			</div>
+			<!--- /privacy ---->
+			<!--- footer-top ---->
+			<!--- /footer-top ---->
+			<?php include('includes/footer.php'); ?>
+			<!-- signup -->
+			<?php include('includes/signup.php'); ?>
+			<!-- //signu -->
+			<!-- signin -->
+			<?php include('includes/signin.php'); ?>
+			<!-- //signin -->
+			<!-- write us -->
+			<?php include('includes/write-us.php'); ?>
 	</body>
 
 	</html>

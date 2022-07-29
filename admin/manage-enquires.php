@@ -16,7 +16,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$query->bindParam(':eid', $eid, PDO::PARAM_STR);
 		$query->execute();
 
-		echo "<script>	alert('Enquiry  successfully read!'); </script>";
+		$msg = "Enquiry  successfully read";
 	}
 
 
@@ -28,7 +28,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<html>
 
 	<head>
-		<title>No Limits India | Admin manage Bookings</title>
+		<title>NLI | Admin manage Bookings</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="application/x-javascript">
@@ -78,7 +78,25 @@ if (strlen($_SESSION['alogin']) == 0) {
 		<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css' />
 		<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
+		<style>
+			.errorWrap {
+				padding: 10px;
+				margin: 0 0 20px 0;
+				background: #fff;
+				border-left: 4px solid #dd3d36;
+				-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+			}
 
+			.succWrap {
+				padding: 10px;
+				margin: 0 0 20px 0;
+				background: #fff;
+				border-left: 4px solid #5cb85c;
+				-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+			}
+		</style>
 	</head>
 
 	<body>
@@ -90,10 +108,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<?php include('includes/header.php'); ?>
 					<div class="clearfix"> </div>
 				</div>
-
+				<!--heder end here-->
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Manage Enquiries</li>
+				</ol>
 				<div class="agile-grids">
 					<!-- tables -->
-
+					<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 					<div class="agile-tables">
 						<div class="w3l-table-info">
 							<h2>Manage Enquiries</h2>
@@ -103,6 +124,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 										<th>Ticket id</th>
 										<th>Name</th>
 										<th>Mobile No./ Email</th>
+
 										<th>Subject </th>
 										<th>Description </th>
 										<th>Posting date </th>
@@ -166,7 +188,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="inner-block">
 
 					</div>
-
+					<!--inner block end here-->
+					<!--copy rights start here-->
+					<?php include('includes/footer.php'); ?>
+					<!--COPY rights end here-->
 				</div>
 			</div>
 			<!--//content-inner-->

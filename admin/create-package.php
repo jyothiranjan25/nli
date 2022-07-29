@@ -12,10 +12,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$pprice = $_POST['packageprice'];
 		$pfeatures = $_POST['packagefeatures'];
 		$pdetails = $_POST['packagedetails'];
-		$no_of_days = $_POST['no_of_days'];
 		$pimage = $_FILES["packageimage"]["name"];
 		move_uploaded_file($_FILES["packageimage"]["tmp_name"], "pacakgeimages/" . $_FILES["packageimage"]["name"]);
-		$sql = "INSERT INTO TblTourPackages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,no_of_days,PackageImage) VALUES(:pname,:ptype,:plocation,:pprice,:pfeatures,:pdetails,:no_of_days,:pimage)";
+		$sql = "INSERT INTO tbltourpackages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,PackageImage) VALUES(:pname,:ptype,:plocation,:pprice,:pfeatures,:pdetails,:pimage)";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':pname', $pname, PDO::PARAM_STR);
 		$query->bindParam(':ptype', $ptype, PDO::PARAM_STR);
@@ -23,14 +22,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$query->bindParam(':pprice', $pprice, PDO::PARAM_STR);
 		$query->bindParam(':pfeatures', $pfeatures, PDO::PARAM_STR);
 		$query->bindParam(':pdetails', $pdetails, PDO::PARAM_STR);
-		$query->bindParam(':no_of_days', $no_of_days, PDO::PARAM_STR);
-
 		$query->bindParam(':pimage', $pimage, PDO::PARAM_STR);
 		$query->execute();
 		$lastInsertId = $dbh->lastInsertId();
 		if ($lastInsertId) {
-			// $msg="Package Created Successfully";
-			echo "<script>alert('Package Created Successfully')</script>";
+			$msg = "Package Created Successfully";
 		} else {
 			$error = "Something went wrong. Please try again";
 		}
@@ -41,11 +37,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<html>
 
 	<head>
-		<title>No Limits India | Admin Package Creation</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+		<title>NLI | Admin Package Creation</title>
+
 		<script type="application/x-javascript">
 			addEventListener("load", function() {
 				setTimeout(hideURLbar, 0);
@@ -96,7 +89,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="clearfix"> </div>
 				</div>
 				<!--heder end here-->
-
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.php">Home</a><i class="fa fa-angle-right"></i>Create Package </li>
+				</ol>
 				<!--grid-->
 				<div class="grid-form">
 
@@ -128,9 +123,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									</div>
 
 									<div class="form-group">
-										<label for="focusedinput" class="col-sm-2 control-label">Package Price in Rs </label>
+										<label for="focusedinput" class="col-sm-2 control-label">Package Price in USD</label>
 										<div class="col-sm-8">
-											<input type="text" class="form-control1" name="packageprice" id="packageprice" placeholder=" Package Price is Rs" required>
+											<input type="text" class="form-control1" name="packageprice" id="packageprice" placeholder=" Package Price is USD" required>
 										</div>
 									</div>
 
@@ -146,12 +141,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<label for="focusedinput" class="col-sm-2 control-label">Package Details</label>
 										<div class="col-sm-8">
 											<textarea class="form-control" rows="5" cols="50" name="packagedetails" id="packagedetails" placeholder="Package Details" required></textarea>
-										</div>
-									</div>
-									<div class="form-group">
-										<label for="focusedinput" class="col-sm-2 control-label">No of Days</label>
-										<div class="col-sm-8">
-											<input type="number" class="form-control1" name="no_of_days" id="no_of_days" placeholder="No Of Days" required>
 										</div>
 									</div>
 									<div class="form-group">
@@ -211,7 +200,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 					<!--inner block end here-->
 					<!--copy rights start here-->
-
+					<?php include('includes/footer.php'); ?>
 					<!--COPY rights end here-->
 				</div>
 			</div>

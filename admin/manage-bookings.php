@@ -10,60 +10,12 @@ if (strlen($_SESSION['alogin']) == 0) {
 		$bid = intval($_GET['bkid']);
 		$status = 2;
 		$cancelby = 'a';
-		$useremail = "";
-		$packageid = 0;
-		//slect package
-		$sqlselect = "SELECT * from tblbooking  WHERE BookingId=:bid";
-		$queryselect = $dbh->prepare($sqlselect);
-		$queryselect->bindParam(':bid', $bid, PDO::PARAM_STR);
-		$queryselect->execute();
-		$results = $queryselect->fetchAll(PDO::FETCH_OBJ);
-		if ($queryselect->rowCount() > 0) {
-			foreach ($results as $result) {
-				$useremail = $result->UserEmail;
-				$packageid = $result->PackageId;
-			}
-		}
-
-
-		//package price
-		$sql = "SELECT * from tbltourpackages  WHERE PackageId=:packageid";
-		$query = $dbh->prepare($sql);
-		$query->bindParam(':packageid', $packageid, PDO::PARAM_STR);
-		$query->execute();
-		$results = $query->fetchAll(PDO::FETCH_OBJ);
-		if ($query->rowCount() > 0) {
-			foreach ($results as $result) {
-
-				$package_price = $result->PackagePrice;
-			}
-		}
-		//user price
-		$sqluser = "SELECT * from tblusers  WHERE EmailId=:useremail";
-		$queryuser = $dbh->prepare($sqluser);
-		$queryuser->bindParam(':useremail', $useremail, PDO::PARAM_STR);
-		$queryuser->execute();
-		$results = $queryuser->fetchAll(PDO::FETCH_OBJ);
-		if ($queryuser->rowCount() > 0) {
-			foreach ($results as $result) {
-				$useramt = $result->amt;
-			}
-		}
-
-		$newamt = $useramt + $package_price;
-
 		$sql = "UPDATE tblbooking SET status=:status,CancelledBy=:cancelby WHERE  BookingId=:bid";
 		$query = $dbh->prepare($sql);
 		$query->bindParam(':status', $status, PDO::PARAM_STR);
 		$query->bindParam(':cancelby', $cancelby, PDO::PARAM_STR);
 		$query->bindParam(':bid', $bid, PDO::PARAM_STR);
 		$query->execute();
-
-		$sqlupdate = "update tblusers set amt=:newamt where EmailId=:useremail";
-		$queryupdate = $dbh->prepare($sqlupdate);
-		$queryupdate->bindParam(':useremail', $useremail, PDO::PARAM_STR);
-		$queryupdate->bindParam(':newamt', $newamt, PDO::PARAM_STR);
-		$queryupdate->execute();
 
 		$msg = "Booking Cancelled successfully";
 	}
@@ -89,7 +41,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<html>
 
 	<head>
-		<title>No Limits India | Admin manage Bookings</title>
+		<title>NLI | Admin manage Bookings</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="application/x-javascript">
@@ -169,7 +121,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<?php include('includes/header.php'); ?>
 					<div class="clearfix"> </div>
 				</div>
-
+				<!--heder end here-->
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Manage Bookings</li>
+				</ol>
 				<div class="agile-grids">
 					<!-- tables -->
 					<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
@@ -179,21 +134,19 @@ if (strlen($_SESSION['alogin']) == 0) {
 							<table id="table">
 								<thead>
 									<tr>
-										<th>Booikng id</th>
+										<th>Booikn id</th>
 										<th>Name</th>
 										<th>Mobile No.</th>
 										<th>Email Id</th>
-										<th>Package Name </th>
+										<th>RegDate </th>
 										<th>From /To </th>
-										<th>Pass 1 </th>
-										<th>Pass 2 </th>
-										<th>Age </th>
+										<th>Comment </th>
 										<th>Status </th>
 										<th>Action </th>
 									</tr>
 								</thead>
 								<tbody>
-									<?php $sql = "SELECT tblbooking.BookingId as bookid,tblusers.FullName as fname,tblusers.MobileNumber as mnumber,tblusers.EmailId as email,tbltourpackages.PackageName as pckname,tblbooking.PackageId as pid,tblbooking.FromDate as fdate,tblbooking.ToDate as tdate,tblbooking.Comment as comment,tblbooking.Age as age,tblbooking.comment2 as comment2,tblbooking.status as status,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblusers join  tblbooking on  tblbooking.UserEmail=tblusers.EmailId join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId";
+									<?php $sql = "SELECT tblbooking.BookingId as bookid,tblusers.FullName as fname,tblusers.MobileNumber as mnumber,tblusers.EmailId as email,tbltourpackages.PackageName as pckname,tblbooking.PackageId as pid,tblbooking.FromDate as fdate,tblbooking.ToDate as tdate,tblbooking.Comment as comment,tblbooking.status as status,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblusers join  tblbooking on  tblbooking.UserEmail=tblusers.EmailId join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId";
 									$query = $dbh->prepare($sql);
 									$query->execute();
 									$results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -201,15 +154,13 @@ if (strlen($_SESSION['alogin']) == 0) {
 									if ($query->rowCount() > 0) {
 										foreach ($results as $result) {				?>
 											<tr>
-												<td>#id-<?php echo htmlentities($result->bookid); ?></td>
+												<td>#BK-<?php echo htmlentities($result->bookid); ?></td>
 												<td><?php echo htmlentities($result->fname); ?></td>
 												<td><?php echo htmlentities($result->mnumber); ?></td>
 												<td><?php echo htmlentities($result->email); ?></td>
 												<td><a href="update-package.php?pid=<?php echo htmlentities($result->pid); ?>"><?php echo htmlentities($result->pckname); ?></a></td>
 												<td><?php echo htmlentities($result->fdate); ?> To <?php echo htmlentities($result->tdate); ?></td>
 												<td><?php echo htmlentities($result->comment); ?></td>
-												<td><?php echo htmlentities($result->comment2); ?></td>
-												<td><?php echo htmlentities($result->age); ?></td>
 												<td><?php if ($result->status == 0) {
 														echo "Pending";
 													}
@@ -227,7 +178,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<?php if ($result->status == 2) {
 												?><td>Cancelled</td>
 												<?php } else { ?>
-													<td><a href="manage-bookings.php?bkid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Cancel</a> / <a href="manage-bookings.php?bckid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to confirm booking')">Confirm</a></td>
+													<td><a href="manage-bookings.php?bkid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Cancel</a> / <a href="manage-bookings.php?bckid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('booking has been confirm')">Confirm</a></td>
 												<?php } ?>
 
 											</tr>
@@ -262,7 +213,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 
 					</div>
 					<!--inner block end here-->
-
+					<!--copy rights start here-->
+					<?php include('includes/footer.php'); ?>
 					<!--COPY rights end here-->
 				</div>
 			</div>

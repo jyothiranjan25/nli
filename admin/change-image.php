@@ -24,7 +24,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<html>
 
 	<head>
-		<title>No Limits India | Admin Package Creation</title>
+		<title>NLI | Admin Package Creation</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="Pooled Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
@@ -79,7 +79,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="clearfix"> </div>
 				</div>
 				<!--heder end here-->
-
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Update Package Image </li>
+				</ol>
 				<!--grid-->
 				<div class="grid-form">
 
@@ -163,7 +165,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="inner-block">
 
 					</div>
-
+					<!--inner block end here-->
+					<!--copy rights start here-->
+					<?php include('includes/footer.php'); ?>
 					<!--COPY rights end here-->
 				</div>
 			</div>

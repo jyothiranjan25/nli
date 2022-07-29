@@ -10,7 +10,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<html>
 
 	<head>
-		<title>No Limits India | admin manage packages</title>
+		<title>NLI | admin manage packages</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="application/x-javascript">
@@ -81,7 +81,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="clearfix"> </div>
 				</div>
 				<!--heder end here-->
-
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Manage Packages</li>
+				</ol>
 				<div class="agile-grids">
 					<!-- tables -->
 
@@ -114,7 +116,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 												<td><?php echo htmlentities($result->PackageName); ?></td>
 												<td><?php echo htmlentities($result->PackageType); ?></td>
 												<td><?php echo htmlentities($result->PackageLocation); ?></td>
-												<td>Rs <?php echo htmlentities($result->PackagePrice); ?></td>
+												<td>$<?php echo htmlentities($result->PackagePrice); ?></td>
 												<td><?php echo htmlentities($result->Creationdate); ?></td>
 												<td><a href="update-package.php?pid=<?php echo htmlentities($result->PackageId); ?>"><button type="button" class="btn btn-primary btn-block">View Details</button></a></td>
 											</tr>
@@ -148,7 +150,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="inner-block">
 
 					</div>
-
+					<!--inner block end here-->
+					<!--copy rights start here-->
+					<?php include('includes/footer.php'); ?>
+					<!--COPY rights end here-->
 				</div>
 			</div>
 			<!--//content-inner-->

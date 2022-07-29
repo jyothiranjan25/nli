@@ -10,7 +10,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 	<html>
 
 	<head>
-		<title>No Limits India | Admin manage Users</title>
+		<title>NLI | Admin manage Users</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script type="application/x-javascript">
@@ -81,7 +81,9 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="clearfix"> </div>
 				</div>
 				<!--heder end here-->
-
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.html">Home</a><i class="fa fa-angle-right"></i>Manage Users</li>
+				</ol>
 				<div class="agile-grids">
 					<!-- tables -->
 
@@ -145,7 +147,10 @@ if (strlen($_SESSION['alogin']) == 0) {
 					<div class="inner-block">
 
 					</div>
-
+					<!--inner block end here-->
+					<!--copy rights start here-->
+					<?php include('includes/footer.php'); ?>
+					<!--COPY rights end here-->
 				</div>
 			</div>
 			<!--//content-inner-->
