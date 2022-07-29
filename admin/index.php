@@ -25,58 +25,66 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
 
 ?>
 
-<!DOCTYPE HTML>
-<html>
-<head>
-<title>TMS | Admin Sign in</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- Bootstrap Core CSS -->
-<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />
-<!-- Custom CSS -->
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="css/morris.css" type="text/css"/>
-<!-- Graph CSS -->
-<link href="css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="css/jquery-ui.css"> 
-<!-- jQuery -->
-<script src="js/jquery-2.1.4.min.js"></script>
-<!-- //jQuery -->
-<link href='//fonts.googleapis.com/css?family=Roboto:700,500,300,100italic,100,400' rel='stylesheet' type='text/css'/>
-<link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-<!-- lined-icons -->
-<link rel="stylesheet" href="css/icon-font.min.css" type='text/css' />
-<!-- //lined-icons -->
-</head> 
-<body>
-	<div class="main-wthree">
-	<div class="container">
-	<div class="sin-w3-agile">
-		<h2>Sign In</h2>
-		<form  method="post">
-			<div class="username">
-				<span class="username">Username:</span>
-				<input type="text" name="username" class="name" placeholder="" required="">
-				<div class="clearfix"></div>
-			</div>
-			<div class="password-agileits">
-				<span class="username">Password:</span>
-				<input type="password" name="password" class="password" placeholder="" required="">
-				<div class="clearfix"></div>
-			</div>
-			
-			<div class="login-w3">
-					<input type="submit" class="login" name="login" value="Sign In">
-			</div>
-			<div class="clearfix"></div>
-		</form>
-				<div class="back">
-					<a href="../index.php">Back to home</a>
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>login Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="css/style1.css">
+
+	</head>
+	<body>
+		
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-7 col-lg-5">
+					<div class="wrap">
+						<div class="img" style="background-image: url(images/bg-1.jpg);"></div>
+						<div class="login-wrap p-4 p-md-5">
+			      	<div class="d-flex">
+			      		<div class="w-100">
+			      			<h3 class="mb-4">Admin Login</h3>
+			      		</div>
+			      	</div>
+							<form action="" method="post" class="signin-form">
+			      		<div class="form-group mt-3">
+			      			<input type="text" name="username" id="email" class="form-control" required>
+			      			<label class="form-control-placeholder" for="username">Username</label>
+			      		</div><br>
+		            <div class="form-group">
+		              <input id="password-field" name="password" type="password" value="" class="form-control" required>
+		              <label class="form-control-placeholder" for="password">Password</label>
+		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+		            </div>
+		            <div class="form-group">
+		            	<button type="submit" name="login" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
+		            </div>
+		            <div class="form-group d-md-flex">
+		            	<div class="w-50 text-left">
+			            	<label class="checkbox-wrap checkbox-primary mb-0">Remember Me
+									  <input type="checkbox" checked>
+									  <span class="checkmark"></span>
+										</label>
+									</div>
+		            </div>
+		          </form>
+		          <p class="text-center"><a href="../index.php">Back to home</a></p>
+		        </div>
+		      </div>
 				</div>
-				
-	</div>
-	</div>
-	</div>
-</body>
+			</div>
+		</div>
+	</section>
+
+	<script src="js/jquery.min.js"></script>
+  <script src="js/popper.js"></script>
+  <script src="js/bootstrap.min1.js"></script>
+  <script src="js/main.js"></script>
+
+	</body>
 </html>
+
