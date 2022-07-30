@@ -80,7 +80,7 @@ echo "<script type='text/javascript'> document.location = 'dashboard.php'; </scr
 		</div>
 	</section>
 
-	<script src="js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
   <script src="js/popper.js"></script>
   <script src="js/bootstrap.min1.js"></script>
   <script src="js/main.js"></script>

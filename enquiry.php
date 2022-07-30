@@ -83,34 +83,43 @@ if (isset($_POST['submit1'])) {
 		<!--- privacy ---->
 		<div class="privacy">
 			<div class="container">
-				<h3 class="wow fadeInDown animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInDown;">Enquiry Form Password</h3>
 				<form name="enquiry" method="post">
-					<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
-					<p style="width: 350px;">
+					<div class="row">
+						<div class="col-md-5">
+							<div class="panel panel-default" width="50%">
+								<div class="panel-heading" style="background-color:white; margin-top: 10px;">
+									<h3 class="wow fadeInDown animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInDown;">Enquiry Form Password</h3>
+								</div>
+								<div class="panel-body">
+									<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
+									<div class="row">
+										<div class="col-md-12">
+											<b>Full name</b><input type="text" name="fname" class="form-control" id="fname" placeholder="Full Name" required="">
+										</div>
+										<div class="col-md-12">
+											<b>Email</b> <input type="email" name="email" class="form-control" id="email" placeholder="Valid Email id" required="">
+										</div>
+										<div class="col-md-12">
+											<b>Mobile No</b> <input type="text" name="mobileno" class="form-control" id="mobileno" maxlength="10" placeholder="10 Digit mobile No" required="">
+										</div>
+										<div class="col-md-12">
+											<b>Subject</b> <input type="text" name="subject" class="form-control" id="subject" placeholder="Subject" required="">
+										</div>
+										<div class="col-md-12">
+											<b>Description</b> <textarea name="description" class="form-control" rows="6" cols="50" id="description" placeholder="Description" required=""></textarea>
+										</div>
+										<div class="col-md-12">
+											<br>
+										</div>
 
-						<b>Full name</b> <input type="text" name="fname" class="form-control" id="fname" placeholder="Full Name" required="">
-					</p>
-					<p style="width: 350px;">
-						<b>Email</b> <input type="email" name="email" class="form-control" id="email" placeholder="Valid Email id" required="">
-					</p>
-
-					<p style="width: 350px;">
-						<b>Mobile No</b> <input type="text" name="mobileno" class="form-control" id="mobileno" maxlength="10" placeholder="10 Digit mobile No" required="">
-					</p>
-
-					<p style="width: 350px;">
-						<b>Subject</b> <input type="text" name="subject" class="form-control" id="subject" placeholder="Subject" required="">
-					</p>
-					<p style="width: 350px;">
-						<b>Description</b> <textarea name="description" class="form-control" rows="6" cols="50" id="description" placeholder="Description" required=""></textarea>
-					</p>
-
-					<p style="width: 350px;">
-						<button type="submit" name="submit1" class="btn-primary btn">Submit</button>
-					</p>
+									</div>
+									<div align="center">
+										<button type="submit" name="submit1" class="btn-primary btn">Submit</button>
+									</div>
+								</div>
+							</div>
+						</div>
 				</form>
-
-
 			</div>
 		</div>
 		<!--- /privacy ---->
