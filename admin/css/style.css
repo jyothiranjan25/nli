@@ -437,7 +437,7 @@ span.logo-clr{
 }
 
 .red > span {
-	background-color: #65CEA7;
+	background-color: #2196F3;
 }
 
 .nostripes > span > span, .nostripes > span:after {
@@ -701,7 +701,7 @@ i.icon_6{
 	font-size:12px;
 }
 .wrapper-dropdown-3 .dropdown li a:hover span.task-desc {
-	color:#65cea7;
+	color:#2196F3;
 }
 .progress .bar {
 		z-index: 2;
@@ -723,7 +723,7 @@ i.icon_6{
 	background:#f0ad4e;
 } 
 .progress-striped .green{
-	background:#5cb85c;
+	background:#2196F3;
 } 
 .progress-striped .light-blue{
 	background:#4F52BA;

@@ -133,9 +133,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											</div>
 
 											<div class="form-group">
-												<label for="focusedinput" class="col-sm-2 control-label">Package Price in USD</label>
+												<label for="focusedinput" class="col-sm-2 control-label">Package Price in Rs</label>
 												<div class="col-sm-8">
-													<input type="text" class="form-control1" name="packageprice" id="packageprice" placeholder=" Package Price is USD" value="<?php echo htmlentities($result->PackagePrice); ?>" required>
+													<input type="text" class="form-control1" name="packageprice" id="packageprice" placeholder=" Package Price is Rs" value="<?php echo htmlentities($result->PackagePrice); ?>" required>
 												</div>
 											</div>
 

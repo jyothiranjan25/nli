@@ -727,7 +727,7 @@ th {
 .glyphicon-pushpin:before {
   content: "\e146";
 }
-.glyphicon-usd:before {
+.glyphicon-Rs:before {
   content: "\e148";
 }
 .glyphicon-gbp:before {
@@ -4431,7 +4431,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: transparent;
 }
 .navbar-default .navbar-toggle {
-  border-color: #ddd;
+  border-color: rgb(23, 172, 222);
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {

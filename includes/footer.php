@@ -1,17 +1,28 @@
 <!--- /footer-top ---->
 <!---copy-right ---->
-<div class="copy-right">
-	<div class="container">
+<style>
+	.copy-right1 p {
+		color: #fff;
+		font-size: 14px;
+		line-height: 1.8em;
+	}
 
-		<div class="footer-social-icons wow fadeInDown animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInDown;">
-			<ul>
-				<li><a class="facebook" href="#"><span>Facebook</span></a></li>
-				<li><a class="twitter" href="#"><span>Twitter</span></a></li>
-				<li><a class="flickr" href="#"><span>Flickr</span></a></li>
-				<li><a class="googleplus" href="#"><span>Google+</span></a></li>
-				<li><a class="dribbble" href="#"><span>Dribbble</span></a></li>
-			</ul>
-		</div>
-		<p class="wow zoomIn animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: zoomIn;">© 2020 NLI . All Rights Reserved </p>
+	.copy-right1 p a {
+		color: #fff;
+	}
+
+	.copy-right1 p a:hover {
+		color: #000000;
+	}
+
+	.copy-right1 {
+		background: #33BEFF;
+		text-align: center;
+		padding: 0.5em 0;
+	}
+</style>
+<div class="copy-right1">
+	<div class="container">
+		<p class="wow zoomIn animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: zoomIn;">© 2022 NLI . All Rights Reserved </p>
 	</div>
 </div>
