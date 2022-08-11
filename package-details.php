@@ -101,6 +101,27 @@ if (isset($_POST['submit2'])) {
 			if ($query->rowCount() > 0) {
 				foreach ($results as $result) {	?>
 
+					<script>
+						function daysDifference() {
+							//define two variables and fetch the input from HTML form  
+							var dateI1 = document.getElementById("dateInput1").value;
+							var dateI2 = document.getElementById("dateInput2").value;
+
+							//define two date object variables to store the date values  
+							var date1 = new Date(dateI1);
+							var date2 = new Date(dateI2);
+
+							//calculate time difference  
+							var time_difference = date2.getTime() - date1.getTime();
+
+							//calculate days difference by dividing total milliseconds in a day  
+							var result = time_difference / (1000 * 60 * 60 * 24);
+
+							return document.getElementById("result").innerHTML =
+								(result * <?php echo htmlentities($result->PackagePrice); ?>).toFixed(0);
+						}
+					</script>
+
 					<form name="book" method="post">
 						<div class="selectroom_top">
 							<div class="col-md-4 selectroom_left wow fadeInLeft animated" data-wow-delay=".5s">
@@ -115,17 +136,17 @@ if (isset($_POST['submit2'])) {
 								<div class="ban-bottom">
 									<div class="bnr-right">
 										<label class="inputLabel">From</label>
-										<input class="date" id="datepicker" type="text" placeholder="dd-mm-yyyy" name="fromdate" required="">
+										<input class="date" id="dateInput1" type="datetime-local" min='<?php echo date('Y-m-d'); ?>T00:00' name="fromdate" required="">
 									</div>
 									<div class="bnr-right">
 										<label class="inputLabel">To</label>
-										<input class="date" id="datepicker1" type="text" placeholder="dd-mm-yyyy" name="todate" required="">
+										<input class="date" id="dateInput2" type="datetime-local" min='<?php echo date('Y-m-d'); ?>T00:00' name="todate" onchange="daysDifference()" required="">
 									</div>
 								</div>
 								<div class="clearfix"></div>
 								<div class="grand">
 									<p>Grand Total</p>
-									<h3>Rs.800</h3>
+									<h3>Rs.<span id="result"><?php echo htmlentities($result->PackagePrice); ?></span></h3>
 								</div>
 							</div>
 							<h3>Package Details</h3>
