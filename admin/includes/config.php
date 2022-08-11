@@ -3,7 +3,7 @@
 define('DB_HOST','localhost');
 define('DB_USER','root');
 define('DB_PASS','');
-define('DB_NAME','nli');
+define('DB_NAME','no_limits_india');
 // Establish database connection.
 try
 {

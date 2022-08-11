@@ -264,7 +264,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $sql = "SELECT tblbooking.BookingId as bookid,tblusers.FullName as fname,tblusers.MobileNumber as mnumber,tblusers.EmailId as email,tbltourpackages.PackageName as pckname,tblbooking.PackageId as pid,tblbooking.FromDate as fdate,tblbooking.ToDate as tdate,tblbooking.Comment as comment,tblbooking.status as status,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblusers join  tblbooking on  tblbooking.UserEmail=tblusers.EmailId join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId";
+                                            <?php $sql = "SELECT p.transaction_id,p.date,p.amount,tblbooking.BookingId as bookid,tblusers.FullName as fname,tblusers.MobileNumber as mnumber,tblusers.EmailId as email,tbltourpackages.PackageName as pckname,tblbooking.PackageId as pid,tblbooking.FromDate as fdate,tblbooking.ToDate as tdate,tblbooking.Comment as comment,tblbooking.status as status,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblusers join  tblbooking on  tblbooking.UserEmail=tblusers.EmailId join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId LEFT JOIN  payments p ON p.booking_id=tblbooking.BookingId";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -280,10 +280,14 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         <td><?php echo htmlentities($result->fdate); ?> To <?php echo htmlentities($result->tdate); ?></td>
                                                         <td><?php echo htmlentities($result->comment); ?></td>
                                                         <td><?php if ($result->status == 0) {
-                                                                echo "Pending";
+                                                                echo " No Action";
                                                             }
                                                             if ($result->status == 1) {
-                                                                echo "Confirmed";
+                                                                echo "Confirmed.";
+                                                            ?>
+
+
+                                                            <?php
                                                             }
                                                             if ($result->status == 2 and  $result->cancelby == 'a') {
                                                                 echo "Canceled by you at " . $result->upddate;
@@ -291,7 +295,13 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                             if ($result->status == 2 and $result->cancelby == 'u') {
                                                                 echo "Canceled by User at " . $result->upddate;
                                                             }
-                                                            ?></td>
+                                                            if ($result->date) {
+
+                                                            ?>
+                                                                <a style="cursor:pointer;color:red;font-size:14px; text-decoration: underline;" onclick="fillModal( '<?= Date('jS-M-Y h:m A', strtotime($result->date)) ?>','<?= $result->transaction_id ?>','<?= $result->amount ?>')"> Payment Details </a>
+
+                                                            <?php } ?>
+                                                        </td>
 
                                                         <?php if ($result->status == 2) {
                                                         ?><td>Cancelled</td>
@@ -355,6 +365,37 @@ if (strlen($_SESSION['alogin']) == 0) {
             </div>
         </div>
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Payment Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <h6> Payment Date: <span id="pdate"></span></h6>
+
+                        <br>
+
+                        <h6> Transaction Id: <span id="tid"></span></h6>
+                        <br>
+                        <h6> Amount Paid: <span id="amt"></span></h6>
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <!-- Bootstrap core JavaScript-->
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -371,7 +412,15 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         <!-- Page level custom scripts -->
         <script src="js/demo/datatables-demo.js"></script>
+        <script>
+            function fillModal(date, transaction, amt) {
+                document.getElementById("pdate").innerHTML = date;
+                document.getElementById("tid").innerHTML = transaction;
+                document.getElementById("amt").innerHTML = amt;
 
+                $("#exampleModal").modal('show');
+            }
+        </script>
     </body>
 
     </html>

@@ -109,7 +109,7 @@ if (strlen($_SESSION['login']) == 0) {
 					<form name="chngpwd" method="post" onSubmit="return valid();">
 						<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 						<p>
-						<table border="1" width="100%">
+						<table class="table table-bordered table-hover table-striped table-responsive" border="1" width="100%">
 							<tr align="center">
 								<th>#</th>
 								<th>Booking Id</th>
@@ -124,7 +124,7 @@ if (strlen($_SESSION['login']) == 0) {
 							<?php
 
 							$uemail = $_SESSION['login'];;
-							$sql = "SELECT tblbooking.BookingId as bookid,tblbooking.PackageId as pkgid,tbltourpackages.PackageName as packagename,tblbooking.FromDate as fromdate,tblbooking.ToDate as todate,tblbooking.Comment as comment,tblbooking.status as status,tblbooking.RegDate as regdate,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblbooking join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId where UserEmail=:uemail";
+							$sql = "SELECT p.id,tblbooking.BookingId as bookid,tblbooking.PackageId as pkgid,tbltourpackages.PackageName as packagename,tblbooking.FromDate as fromdate,tblbooking.ToDate as todate,tblbooking.Comment as comment,tblbooking.status as status,tblbooking.RegDate as regdate,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblbooking join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId LEFT JOIN  payments p ON p.booking_id=tblbooking.BookingId where UserEmail=:uemail";
 							$query = $dbh->prepare($sql);
 							$query->bindParam(':uemail', $uemail, PDO::PARAM_STR);
 							$query->execute();
@@ -140,23 +140,30 @@ if (strlen($_SESSION['login']) == 0) {
 										<td><?php echo htmlentities($result->todate); ?></td>
 										<td><?php echo htmlentities($result->comment); ?></td>
 										<td><?php if ($result->status == 0) {
-												echo "Pending";
-											}
-											if ($result->status == 1) {
-												echo "Confirmed";
-											}
-											if ($result->status == 2 and  $result->cancelby == 'u') {
-												echo "Canceled by you at " . $result->upddate;
-											}
-											if ($result->status == 2 and $result->cancelby == 'a') {
-												echo "Canceled by admin at " . $result->upddate;
-											}
-											?></td>
+												echo "Admin Approval Pending<br>";
+
+												if($result->id){
+													echo "<span style='color:green'>Payment Success. </span><br>";
+												}else{
+											?>
+
+												<a href="payment-page.php?booking_id=<?= $result->bookid ?>" class="btn" > Continue Payment </a> <?php }
+																						}
+																						if ($result->status == 1) {
+																							echo "Confirmed";
+																						}
+																						if ($result->status == 2 and  $result->cancelby == 'u') {
+																							echo "Canceled by you at " . $result->upddate;
+																						}
+																						if ($result->status == 2 and $result->cancelby == 'a') {
+																							echo "Canceled by admin at " . $result->upddate;
+																						}
+																							?></td>
 										<td><?php echo htmlentities($result->regdate); ?></td>
 										<?php if ($result->status == 2) {
 										?><td>Cancelled</td>
 										<?php } else { ?>
-											<td><a href="tour-history.php?bkid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Cancel</a></td>
+											<td><a style="color:red" href="tour-history.php?bkid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Cancel</a></td>
 										<?php } ?>
 									</tr>
 							<?php $cnt = $cnt + 1;

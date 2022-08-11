@@ -12,9 +12,10 @@ if (strlen($_SESSION['alogin']) == 0) {
         $pprice = $_POST['packageprice'];
         $pfeatures = $_POST['packagefeatures'];
         $pdetails = $_POST['packagedetails'];
+        $perday = $_POST['perday'];
         $pimage = $_FILES["packageimage"]["name"];
         move_uploaded_file($_FILES["packageimage"]["tmp_name"], "../admin/pacakgeimages/" . $_FILES["packageimage"]["name"]);
-        $sql = "INSERT INTO tbltourpackages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,PackageImage) VALUES(:pname,:ptype,:plocation,:pprice,:pfeatures,:pdetails,:pimage)";
+        $sql = "INSERT INTO tbltourpackages(PackageName,PackageType,PackageLocation,PackagePrice,PackageFetures,PackageDetails,PackageImage,perday) VALUES(:pname,:ptype,:plocation,:pprice,:pfeatures,:pdetails,:pimage,:perday)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':pname', $pname, PDO::PARAM_STR);
         $query->bindParam(':ptype', $ptype, PDO::PARAM_STR);
@@ -23,6 +24,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         $query->bindParam(':pfeatures', $pfeatures, PDO::PARAM_STR);
         $query->bindParam(':pdetails', $pdetails, PDO::PARAM_STR);
         $query->bindParam(':pimage', $pimage, PDO::PARAM_STR);
+        $query->bindParam(':perday', $perday, PDO::PARAM_STR);
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
         if ($lastInsertId) {
@@ -130,7 +132,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     </div>
                 </li>
 
-                 <!-- Nav Item - Utilities Collapse Menu -->
+                <!-- Nav Item - Utilities Collapse Menu -->
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-fw fa-wrench"></i>
@@ -259,7 +261,12 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                     <input type="text" class="form-control" name="packageprice" id="packageprice" placeholder=" Package Price is Rs" required>
                                                 </div>
                                             </div>
-
+                                            <div class="form-group">
+                                                <label for="focusedinput" class="col-sm-2 control-label">Extra Charges per Day (in Rs)</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" name="perday" id="perday" placeholder="  amount will be added to package based on dates." required>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <label for="focusedinput" class="col-sm-2 control-label">Package Features</label>
                                                 <div class="col-sm-8">

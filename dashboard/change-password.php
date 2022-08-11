@@ -7,8 +7,8 @@ if (strlen($_SESSION['alogin']) == 0) {
 } else {
     // Code for change password	
     if (isset($_POST['submit'])) {
-        $password = md5($_POST['password']);
-        $newpassword = md5($_POST['newpassword']);
+        $password = $_POST['password'];
+        $newpassword = $_POST['newpassword'];
         $username = $_SESSION['alogin'];
         $sql = "SELECT Password FROM admin WHERE UserName=:username and Password=:password";
         $query = $dbh->prepare($sql);

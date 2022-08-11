@@ -7,22 +7,27 @@ if (isset($_POST['submit2'])) {
 	$useremail = $_SESSION['login'];
 	$fromdate = $_POST['fromdate'];
 	$todate = $_POST['todate'];
+	$amount = $_POST['amount'];
 	$comment = $_POST['comment'];
 	$status = 0;
-	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:comment,:status)";
+	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,amount,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:amount,:comment,:status)";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':pid', $pid, PDO::PARAM_STR);
 	$query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
 	$query->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
 	$query->bindParam(':todate', $todate, PDO::PARAM_STR);
+	$query->bindParam(':amount', $amount, PDO::PARAM_STR);
 	$query->bindParam(':comment', $comment, PDO::PARAM_STR);
 	$query->bindParam(':status', $status, PDO::PARAM_STR);
 	$query->execute();
 	$lastInsertId = $dbh->lastInsertId();
 	if ($lastInsertId) {
-		$msg = "Booked Successfully";
+		$msg = "Booking successful, Please complete payment.";
+		echo "<script> alert('$msg') </script>";
+		echo "<script type='text/javascript'>document.location = 'payment-page.php?booking_id=$lastInsertId'; </script>";
 	} else {
 		$error = "Something went wrong. Please try again";
+		echo $dbh->error;
 	}
 }
 ?>
@@ -101,26 +106,7 @@ if (isset($_POST['submit2'])) {
 			if ($query->rowCount() > 0) {
 				foreach ($results as $result) {	?>
 
-					<script>
-						function daysDifference() {
-							//define two variables and fetch the input from HTML form  
-							var dateI1 = document.getElementById("dateInput1").value;
-							var dateI2 = document.getElementById("dateInput2").value;
 
-							//define two date object variables to store the date values  
-							var date1 = new Date(dateI1);
-							var date2 = new Date(dateI2);
-
-							//calculate time difference  
-							var time_difference = date2.getTime() - date1.getTime();
-
-							//calculate days difference by dividing total milliseconds in a day  
-							var result = time_difference / (1000 * 60 * 60 * 24);
-
-							return document.getElementById("result").innerHTML =
-								(result * <?php echo htmlentities($result->PackagePrice); ?>).toFixed(0);
-						}
-					</script>
 
 					<form name="book" method="post">
 						<div class="selectroom_top">
@@ -132,17 +118,22 @@ if (isset($_POST['submit2'])) {
 								<p class="dow">#PKG-<?php echo htmlentities($result->PackageId); ?></p>
 								<p><b>Package Type :</b> <?php echo htmlentities($result->PackageType); ?></p>
 								<p><b>Package Location :</b> <?php echo htmlentities($result->PackageLocation); ?></p>
-								<p><b>Features</b> <?php echo htmlentities($result->PackageFetures); ?></p>
+								<p><b>Features</b> <?php echo htmlentities($result->PackageFetures); ?> </p>
 								<div class="ban-bottom">
 									<div class="bnr-right">
 										<label class="inputLabel">From</label>
-										<input class="date" id="dateInput1" type="datetime-local" min='<?php echo date('Y-m-d'); ?>T00:00' name="fromdate" required="">
+										<input class="form-control" id="dateInput1" type="date" min="<?= date('Y-m-d'); ?>" name="fromdate" required="">
 									</div>
 									<div class="bnr-right">
 										<label class="inputLabel">To</label>
-										<input class="date" id="dateInput2" type="datetime-local" min='<?php echo date('Y-m-d'); ?>T00:00' name="todate" onchange="daysDifference()" required="">
+										<input class="form-control" class="form-control" id="dateInput2" type="date" min="<?= date('Y-m-d'); ?>" name="todate" onchange="daysDifference()" required="">
+
+										<input type="hidden" name="amount" id="amount" value="">
 									</div>
 								</div>
+								<br>
+								<div class="clearfix"></div>
+								<br>
 								<div class="clearfix"></div>
 								<div class="grand">
 									<p>Grand Total</p>
@@ -160,15 +151,15 @@ if (isset($_POST['submit2'])) {
 
 									<li class="spe">
 										<label class="inputLabel">Comment</label>
-										<input class="special" type="text" name="comment" required="">
+										<input class="form-control" type="text" name="comment" required="">
 									</li>
 									<?php if ($_SESSION['login']) { ?>
 										<li class="spe" align="center">
-											<button type="submit" name="submit2" class="btn-primary btn">Book</button>
+											<button type="submit" name="submit2" class="btn btn-primary" style="background-color:green; color:white">Book</button>
 										</li>
 									<?php } else { ?>
 										<li class="sigi" align="center" style="margin-top: 1%">
-											<a href="#" data-toggle="modal" data-target="#myModal4" class="btn-primary btn"> Book</a>
+											<a href="#" data-toggle="modal" data-target="#myModal4" class="btn btn-success"> Book</a>
 										</li>
 									<?php } ?>
 									<div class="clearfix"></div>
@@ -183,6 +174,43 @@ if (isset($_POST['submit2'])) {
 
 		</div>
 	</div>
+	<script>
+		function daysDifference() {
+			//define two variables and fetch the input from HTML form  
+			var dateI1 = document.getElementById("dateInput1").value;
+			var dateI2 = document.getElementById("dateInput2").value;
+
+			if (dateI1 > dateI2) {
+				alert('invalid dates');
+				return;
+			}
+			//define two date object variables to store the date values  
+			var date1 = new Date(dateI1);
+			var date2 = new Date(dateI2);
+			// To calculate the time difference of two dates
+			var Difference_In_Time = date2.getTime() - date1.getTime();
+
+			// To calculate the no. of days between two dates
+			var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+			console.log(Difference_In_Days);
+
+
+			if (<?php echo htmlentities($result->perday); ?> > 0 && Difference_In_Days > 0) {
+				var increased = Difference_In_Days * <?php echo htmlentities($result->perday); ?>;
+
+				var result = increased + <?php echo htmlentities($result->PackagePrice); ?>;
+			} else {
+				var result = <?php echo htmlentities($result->PackagePrice); ?>;
+
+			}
+
+			document.getElementById("amount").value = (result).toFixed(0);
+
+			return document.getElementById("result").innerHTML =
+				(result).toFixed(0);
+		}
+	</script>
 	<!--- /selectroom ---->
 	<<!--- /footer-top ---->
 		<?php include('includes/footer.php'); ?>
