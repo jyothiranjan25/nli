@@ -8,15 +8,17 @@ if (isset($_POST['submit2'])) {
 	$fromdate = $_POST['fromdate'];
 	$todate = $_POST['todate'];
 	$amount = $_POST['amount'];
+	$persons = $_POST['persons'];
 	$comment = $_POST['comment'];
 	$status = 0;
-	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,amount,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:amount,:comment,:status)";
+	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,amount,persons,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:amount, :persons,:comment,:status)";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':pid', $pid, PDO::PARAM_STR);
 	$query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
 	$query->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
 	$query->bindParam(':todate', $todate, PDO::PARAM_STR);
 	$query->bindParam(':amount', $amount, PDO::PARAM_STR);
+	$query->bindParam(':persons', $persons, PDO::PARAM_STR);
 	$query->bindParam(':comment', $comment, PDO::PARAM_STR);
 	$query->bindParam(':status', $status, PDO::PARAM_STR);
 	$query->execute();
@@ -132,6 +134,12 @@ if (isset($_POST['submit2'])) {
 
 										<input type="hidden" name="amount" id="amount" value="">
 									</div>
+								</div><br><br>
+								<div class="ban-bottom">
+									<div class="bnr-right">
+										<label class="inputLabel">No of persons</label>
+										<input class="form-control" id="person1" type="number" name="persons" min="1" required="">
+									</div>
 								</div>
 								<br>
 								<div class="clearfix"></div>
@@ -206,6 +214,7 @@ if (isset($_POST['submit2'])) {
 				var result = <?php echo htmlentities($result->PackagePrice); ?>;
 
 			}
+
 
 			document.getElementById("amount").value = (result).toFixed(0);
 

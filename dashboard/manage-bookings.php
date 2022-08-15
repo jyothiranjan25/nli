@@ -258,13 +258,14 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>Email Id</th>
                                                 <th>RegDate </th>
                                                 <th>From /To </th>
+                                                <th>No.of Persons </th>
                                                 <th>Comment </th>
                                                 <th>Status </th>
                                                 <th>Action </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $sql = "SELECT p.transaction_id,p.date,p.amount,tblbooking.BookingId as bookid,tblusers.FullName as fname,tblusers.MobileNumber as mnumber,tblusers.EmailId as email,tbltourpackages.PackageName as pckname,tblbooking.PackageId as pid,tblbooking.FromDate as fdate,tblbooking.ToDate as tdate,tblbooking.Comment as comment,tblbooking.status as status,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblusers join  tblbooking on  tblbooking.UserEmail=tblusers.EmailId join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId LEFT JOIN  payments p ON p.booking_id=tblbooking.BookingId";
+                                            <?php $sql = "SELECT p.transaction_id,p.date,p.amount,tblbooking.BookingId as bookid,tblusers.FullName as fname,tblusers.MobileNumber as mnumber,tblusers.EmailId as email,tbltourpackages.PackageName as pckname,tblbooking.PackageId as pid,tblbooking.FromDate as fdate,tblbooking.ToDate as tdate,tblbooking.persons as persons,tblbooking.Comment as comment,tblbooking.status as status,tblbooking.CancelledBy as cancelby,tblbooking.UpdationDate as upddate from tblusers join  tblbooking on  tblbooking.UserEmail=tblusers.EmailId join tbltourpackages on tbltourpackages.PackageId=tblbooking.PackageId LEFT JOIN  payments p ON p.booking_id=tblbooking.BookingId";
                                             $query = $dbh->prepare($sql);
                                             $query->execute();
                                             $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -278,6 +279,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         <td><?php echo htmlentities($result->email); ?></td>
                                                         <td><a href="update-package.php?pid=<?php echo htmlentities($result->pid); ?>"><?php echo htmlentities($result->pckname); ?></a></td>
                                                         <td><?php echo htmlentities($result->fdate); ?> To <?php echo htmlentities($result->tdate); ?></td>
+                                                        <td><?php echo htmlentities($result->persons); ?></td>
                                                         <td><?php echo htmlentities($result->comment); ?></td>
                                                         <td><?php if ($result->status == 0) {
                                                                 echo " No Action";
