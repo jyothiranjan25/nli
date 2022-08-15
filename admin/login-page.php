@@ -58,6 +58,7 @@ if (isset($_POST['signin'])) {
 									<input type="text" name="email" id="email" class="form-control" required>
 									<label class="form-control-placeholder" for="username">Username</label>
 								</div>
+								<br>
 								<div class="form-group">
 									<input id="password-field" name="password" type="password" value="" class="form-control" required>
 									<label class="form-control-placeholder" for="password">Password</label>

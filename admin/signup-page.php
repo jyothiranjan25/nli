@@ -74,7 +74,7 @@ if (isset($_POST['submit'])) {
 									</div>
 									<div class="form-group mt-3">
 										<label>Mobile No</label>
-										<input type="number" name="mobilenumber" id="number" minlength="10" class="form-control" required>
+										<input type="number" name="mobilenumber" id="number" minlength="10" maxlength="10" class="form-control" required>
 									</div>
 									<div class="form-group mt-3">
 										<label>Email Id</label>

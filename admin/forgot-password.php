@@ -73,20 +73,24 @@ if (isset($_POST['submit50'])) {
 									<input type="email" name="email" id="email" class="form-control" required>
 									<label class="form-control-placeholder" for="username">Email id</label>
 								</div>
+								<br>
 								<div class="form-group mt-3">
-									<input type="text" name="mobile" id="mobile" class="form-control" required>
+									<input type="text" name="mobile" id="mobile" class="form-control" maxlength="10" minlength="10" required>
 									<label class="form-control-placeholder" for="username">Mobile no</label>
 								</div>
+								<br>
 								<div class="form-group">
 									<input id="password-field" name="newpassword" type="password" value="" class="form-control" required>
 									<label class="form-control-placeholder" for="password">New Password</label>
 									<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 								</div>
+								<br>
 								<div class="form-group">
 									<input id="password-field" name="confirmpassword" type="password" value="" class="form-control" required>
 									<label class="form-control-placeholder" for="password">Confirm Password</label>
 									<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 								</div>
+								<br>
 								<div class="form-group">
 									<button type="submit" name="submit50" class="form-control btn btn-primary rounded submit px-3">Change</button>
 								</div>

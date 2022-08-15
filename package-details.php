@@ -24,6 +24,8 @@ if (isset($_POST['submit2'])) {
 	if ($lastInsertId) {
 		$msg = "Booking successful, Please complete payment.";
 		echo "<script> alert('$msg') </script>";
+
+		echo "<script> alert('$msg') </script>";
 		echo "<script type='text/javascript'>document.location = 'payment-page.php?booking_id=$lastInsertId'; </script>";
 	} else {
 		$error = "Something went wrong. Please try again";

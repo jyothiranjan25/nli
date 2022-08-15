@@ -69,7 +69,7 @@ if (strlen($_SESSION['login']) == 0) {
 					<form name="chngpwd" method="post" onSubmit="return valid();">
 						<?php if ($error) { ?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } else if ($msg) { ?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php } ?>
 						<p>
-						<table border="1" width="100%">
+						<table class="table table-bordered table-hover table-striped table-responsive" border="1" width="100%">
 							<tr align="center">
 								<th>#</th>
 								<th>Ticket Id</th>
@@ -93,16 +93,26 @@ if (strlen($_SESSION['login']) == 0) {
 								foreach ($results as $result) {	?>
 									<tr align="center">
 										<td><?php echo htmlentities($cnt); ?></td>
-										<td width="100">#TKT-<?php echo htmlentities($result->id); ?></td>
+										<td>#TKT-<?php echo htmlentities($result->id); ?></td>
 										<td><?php echo htmlentities($result->Issue); ?></td>
-										<td width="300"><?php echo htmlentities($result->Description); ?></td>
+										<td><?php echo htmlentities($result->Description); ?></td>
 										<td><?php echo htmlentities($result->AdminRemark); ?></td>
-										<td width="100"><?php echo htmlentities($result->PostingDate); ?></td>
-										<td width="100"><?php echo htmlentities($result->AdminremarkDate); ?></td>
+										<td><?php echo htmlentities($result->PostingDate); ?></td>
+										<td><?php echo htmlentities($result->AdminremarkDate); ?></td>
 									</tr>
-							<?php $cnt = $cnt + 1;
+								<?php $cnt = $cnt + 1;
 								}
-							} ?>
+							} else { ?>
+								<tr align="center">
+									<td></td>
+									<td></td>
+									<td></td>
+									<td>No Tickets Raised</td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							<?php } ?>
 						</table>
 
 						</p>

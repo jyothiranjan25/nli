@@ -1,15 +1,11 @@
 <?php
 session_start();
 include('includes/config.php');
-if (strlen($_SESSION['alogin']) == 0) {
-	header('location:index.php');
-}
+
 // error_reporting(0);
 $booking_id = intval($_GET['booking_id']);
 
 if (isset($_POST['submit'])) {
-	echo "<script> alert('we are in.') </script>";
-
 	$user_email = $_SESSION['login'];
 	$card_number = $_POST['card_number'];
 	$transaction_id = $_POST['transaction_id'];
@@ -108,23 +104,25 @@ if ($query->rowCount() > 0) {
 										<div class="row">
 											<div class="col-12">
 												<div class="form__div">
-													<input type="text" pattern="^[0-9]{16}$" title="16 digits" class="form-control" id="cardNumber" name="card_number" required>
+													<input type="text" maxlength="16" pattern="^[0-9]{16}$" title="16 digits" class="form-control" id="cardNumber" name="card_number" required>
 													<label for="" class="form__label">Card Number</label>
 												</div>
 											</div>
 
 											<div class="col-6">
 												<div class="form__div">
-													<input type="text" id="expdate" name="month" class="form-control" pattern="^((0[1-9])|(1[0-2]))\/(\d{2})$" required>
-													<input type="hidden" name="transaction_id" title="MM / YY" class="form-control" value="123456" required>
-													<input type="hidden" name="amount" value="<?= $amount ?>" required>
-													<label for="" class="form__label">MM / yy</label>
+
+													<input type="text" name="month" class="form-control" pattern="^((0[1-9])|(1[0-2]))\/(\d{2})$" required>
+
+													<label for="" class="form__label">mm / yy</label>
 												</div>
 											</div>
+											<input type="hidden" name="transaction_id" title="MM / YY" class="form-control" value="<?= rand(10, 100) ?>1234<?= rand(10, 100) ?>" required>
+											<input type="hidden" name="amount" value="<?= $amount ?>" required>
 
 											<div class="col-6">
 												<div class="form__div">
-													<input type="text" class="form-control" pattern="^[0-9]{3}$" name="cvv" title="3 digits" id="cvv" required>
+													<input type="text" maxlength="3" class="form-control" pattern="^[0-9]{3}$" name="cvv" title="3 digits" id="cvv" required>
 													<label for="" class="form__label">cvv code</label>
 												</div>
 											</div>
