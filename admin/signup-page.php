@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
 								<form action="#" class="signin-form" method="post">
 									<div class="form-group mt-3">
 										<label>Full name</label>
-										<input type="text" name="fname" id="name" minlength="5" class="form-control" required>
+										<input type="text" name="fname" id="name" pattern="[a-zA-Z'-'\s]*" oninvalid="setCustomValidity('Please enter Alphabets.')" class="form-control" required>
 									</div>
 									<div class="form-group mt-3">
 										<label>Mobile No</label>

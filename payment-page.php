@@ -122,13 +122,13 @@ if ($query->rowCount() > 0) {
 
 											<div class="col-6">
 												<div class="form__div">
-													<input type="text" maxlength="3" class="form-control" pattern="^[0-9]{3}$" name="cvv" title="3 digits" id="cvv" required>
+													<input type="text" minlength="3" maxlength="3" class="form-control" pattern="^[0-9]{3}$" name="cvv" title="3 digits" id="cvv" required>
 													<label for="" class="form__label">cvv code</label>
 												</div>
 											</div>
 											<div class="col-12">
 												<div class="form__div">
-													<input type="text" class="form-control" placeholder="" required>
+													<input type="text" class="form-control" pattern="[a-zA-Z'-'\s]*" oninvalid="setCustomValidity('Please enter Alphabets.')" placeholder="" required>
 													<label for="" class="form__label">name on the card</label>
 												</div>
 											</div>
