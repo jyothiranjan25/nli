@@ -8,17 +8,17 @@ if (isset($_POST['submit2'])) {
 	$fromdate = $_POST['fromdate'];
 	$todate = $_POST['todate'];
 	$amount = $_POST['amount'];
-	$persons = $_POST['persons'];
+	$perperson = $_POST['perperson'];
 	$comment = $_POST['comment'];
 	$status = 0;
-	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,amount,persons,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:amount, :persons,:comment,:status)";
+	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,amount,perperson,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:amount, :perperson,:comment,:status)";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':pid', $pid, PDO::PARAM_STR);
 	$query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
 	$query->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
 	$query->bindParam(':todate', $todate, PDO::PARAM_STR);
 	$query->bindParam(':amount', $amount, PDO::PARAM_STR);
-	$query->bindParam(':persons', $persons, PDO::PARAM_STR);
+	$query->bindParam(':perperson', $perperson, PDO::PARAM_STR);
 	$query->bindParam(':comment', $comment, PDO::PARAM_STR);
 	$query->bindParam(':status', $status, PDO::PARAM_STR);
 	$query->execute();
@@ -138,7 +138,7 @@ if (isset($_POST['submit2'])) {
 								<div class="ban-bottom">
 									<div class="bnr-right">
 										<label class="inputLabel">No of persons</label>
-										<input class="form-control" id="person1" type="number" name="persons" min="1" required="">
+										<input class="form-control" id="personInput1" type="number" name="persons" min="1" required="">
 									</div>
 								</div>
 								<br>
@@ -189,7 +189,7 @@ if (isset($_POST['submit2'])) {
 			//define two variables and fetch the input from HTML form  
 			var dateI1 = document.getElementById("dateInput1").value;
 			var dateI2 = document.getElementById("dateInput2").value;
-
+			var personI1 = document.getElementById("personInput1").value;
 			if (dateI1 > dateI2) {
 				alert('invalid dates');
 				return;
@@ -197,6 +197,7 @@ if (isset($_POST['submit2'])) {
 			//define two date object variables to store the date values  
 			var date1 = new Date(dateI1);
 			var date2 = new Date(dateI2);
+			var person1 = new Number(personI1);
 			// To calculate the time difference of two dates
 			var Difference_In_Time = date2.getTime() - date1.getTime();
 

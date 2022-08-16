@@ -14,8 +14,9 @@ if (strlen($_SESSION['alogin']) == 0) {
         $pfeatures = $_POST['packagefeatures'];
         $pdetails = $_POST['packagedetails'];
         $perday = $_POST['perday'];
+        $perperson = $_POST['perperson'];
         $pimage = $_FILES["packageimage"]["name"];
-        $sql = "update TblTourPackages set PackageName=:pname,PackageType=:ptype,PackageLocation=:plocation,PackagePrice=:pprice,PackageFetures=:pfeatures,PackageDetails=:pdetails,perday=:perday where PackageId=:pid";
+        $sql = "update TblTourPackages set PackageName=:pname,PackageType=:ptype,PackageLocation=:plocation,PackagePrice=:pprice,PackageFetures=:pfeatures,PackageDetails=:pdetails,perday=:perday,perperson=:perperson where PackageId=:pid";
         $query = $dbh->prepare($sql);
         $query->bindParam(':pname', $pname, PDO::PARAM_STR);
         $query->bindParam(':ptype', $ptype, PDO::PARAM_STR);
@@ -24,6 +25,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         $query->bindParam(':pfeatures', $pfeatures, PDO::PARAM_STR);
         $query->bindParam(':pdetails', $pdetails, PDO::PARAM_STR);
         $query->bindParam(':perday', $perday, PDO::PARAM_STR);
+        $query->bindParam(':perperson', $perperson, PDO::PARAM_STR);
         $query->bindParam(':pid', $pid, PDO::PARAM_STR);
         $query->execute();
         $msg = "Package Updated Successfully";
@@ -269,12 +271,17 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="focusedinput" class="col-sm-2 control-label">Per Day Extra Charges (in Rs)</label>
+                                                        <label for="focusedinput" class="col-sm-4 control-label">Per Day Extra Charges (in Rs)</label>
                                                         <div class="col-sm-8">
                                                             <input type="text" class="form-control" name="perday" id="perday" placeholder=" Per Day Extra Charges is Rs" value="<?php echo htmlentities($result->perday); ?>" required>
                                                         </div>
                                                     </div>
-
+                                                    <div class="form-group">
+                                                        <label for="focusedinput" class="col-sm-4 control-label">Per person Extra Charges (in Rs)</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" class="form-control" name="perperson" id="perperson" placeholder=" Per person Extra Charges is Rs" value="<?php echo htmlentities($result->perperson); ?>" required>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group">
                                                         <label for="focusedinput" class="col-sm-2 control-label">Package Features</label>
                                                         <div class="col-sm-8">
