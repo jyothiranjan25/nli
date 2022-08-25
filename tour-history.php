@@ -111,7 +111,7 @@ if (strlen($_SESSION['login']) == 0) {
 						<p>
 						<table class="table table-bordered table-hover table-striped table-responsive" border="1" width="100%">
 							<tr align="center">
-								<th>#</th>
+								<th>SL.No</th>
 								<th>Booking Id</th>
 								<th>Package Name</th>
 								<th>From</th>
@@ -133,33 +133,32 @@ if (strlen($_SESSION['login']) == 0) {
 							if ($query->rowCount() > 0) {
 								foreach ($results as $result) {	?>
 									<tr align="center">
-										<td><?php echo htmlentities($cnt); ?></td>
-										<td>#BK<?php echo htmlentities($result->bookid); ?></td>
-										<td><a href="package-details.php?pkgid=<?php echo htmlentities($result->pkgid); ?>"><?php echo htmlentities($result->packagename); ?></a></td>
-										<td><?php echo htmlentities($result->fromdate); ?></td>
-										<td><?php echo htmlentities($result->todate); ?></td>
+										<td style="width:5%"><?php echo htmlentities($cnt); ?></td>
+										<td style="width:5%">#BK<?php echo htmlentities($result->bookid); ?></td>
+										<td style="width:25%"><a href="package-details.php?pkgid=<?php echo htmlentities($result->pkgid); ?>"><?php echo htmlentities($result->packagename); ?></a></td>
+										<td style="width:11%"><?php echo htmlentities($result->fromdate); ?></td>
+										<td style="width:11%"><?php echo htmlentities($result->todate); ?></td>
 										<td><?php echo htmlentities($result->comment); ?></td>
-										<td><?php if ($result->status == 0) {
-												echo "Admin Approval Pending<br>";
+										<td style="width:14%"><?php if ($result->status == 1) {
+																	echo "Booking Confirmed<br>";
 
-												if($result->id){
-													echo "<span style='color:green'>Payment Success. </span><br>";
-												}else{
-											?>
+																	if ($result->id) {
+																		echo "<span style='color:green'>Payment Success. </span><br>";
+																	} else {
+																?>
 
-												<a href="payment-page.php?booking_id=<?= $result->bookid ?>" class="btn" > Continue Payment </a> <?php }
-																						}
-																						if ($result->status == 1) {
-																							echo "Confirmed";
-																						}
-																						if ($result->status == 2 and  $result->cancelby == 'u') {
-																							echo "Canceled by you at " . $result->upddate;
-																						}
-																						if ($result->status == 2 and $result->cancelby == 'a') {
-																							echo "Canceled by admin at " . $result->upddate;
-																						}
-																							?></td>
-										<td><?php echo htmlentities($result->regdate); ?></td>
+													<a href="payment-page.php?booking_id=<?= $result->bookid ?>" class="btn"> Continue Payment </a> <?php }
+																																			}
+
+																																			if ($result->status == 2 and  $result->cancelby == 'u') {
+																																				echo "Canceled by you at " . $result->upddate;
+																																			}
+																																			if ($result->status == 2 and $result->cancelby == 'a') {
+																																				echo "Canceled by admin at " . $result->upddate;
+																																			}
+																																					?>
+										</td>
+										<td style="width:11%"><?php echo htmlentities($result->regdate); ?></td>
 										<?php if ($result->status == 2) {
 										?><td>Cancelled</td>
 										<?php } else { ?>

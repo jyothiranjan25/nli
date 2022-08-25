@@ -8,17 +8,17 @@ if (isset($_POST['submit2'])) {
 	$fromdate = $_POST['fromdate'];
 	$todate = $_POST['todate'];
 	$amount = $_POST['amount'];
-	$perperson = $_POST['perperson'];
+	$perperson = $_POST['persons'];
 	$comment = $_POST['comment'];
-	$status = 0;
-	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,amount,perperson,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:amount, :perperson,:comment,:status)";
+	$status = 1;
+	$sql = "INSERT INTO tblbooking(PackageId,UserEmail,FromDate,ToDate,amount,persons,Comment,status) VALUES(:pid,:useremail,:fromdate,:todate,:amount, :persons,:comment,:status)";
 	$query = $dbh->prepare($sql);
 	$query->bindParam(':pid', $pid, PDO::PARAM_STR);
 	$query->bindParam(':useremail', $useremail, PDO::PARAM_STR);
 	$query->bindParam(':fromdate', $fromdate, PDO::PARAM_STR);
 	$query->bindParam(':todate', $todate, PDO::PARAM_STR);
 	$query->bindParam(':amount', $amount, PDO::PARAM_STR);
-	$query->bindParam(':perperson', $perperson, PDO::PARAM_STR);
+	$query->bindParam(':persons', $perperson, PDO::PARAM_STR);
 	$query->bindParam(':comment', $comment, PDO::PARAM_STR);
 	$query->bindParam(':status', $status, PDO::PARAM_STR);
 	$query->execute();
@@ -138,7 +138,7 @@ if (isset($_POST['submit2'])) {
 								<div class="ban-bottom">
 									<div class="bnr-right">
 										<label class="inputLabel">No of persons</label>
-										<input class="form-control" id="personInput1" type="number" name="persons" min="1" required="">
+										<input class="form-control" id="personInput1" type="number" name="persons" min="1" value="1" onchange="daysDifference()" required="">
 									</div>
 								</div>
 								<br>
@@ -204,18 +204,18 @@ if (isset($_POST['submit2'])) {
 			// To calculate the no. of days between two dates
 			var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-			console.log(Difference_In_Days);
+			// console.log(Difference_In_Days);
 
 
-			if (<?php echo htmlentities($result->perday); ?> > 0 && Difference_In_Days > 0) {
+			if (<?php echo htmlentities($result->perday); ?> > 0 && Difference_In_Days >= 0 && personI1 >= 0) {
 				var increased = Difference_In_Days * <?php echo htmlentities($result->perday); ?>;
+				var increased = increased + ((personI1 - 1) * <?php echo htmlentities($result->perperson); ?>);
 
 				var result = increased + <?php echo htmlentities($result->PackagePrice); ?>;
 			} else {
 				var result = <?php echo htmlentities($result->PackagePrice); ?>;
 
 			}
-
 
 			document.getElementById("amount").value = (result).toFixed(0);
 

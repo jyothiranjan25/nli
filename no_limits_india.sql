@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Aug 12, 2022 at 02:24 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.4.22
+-- Host: 127.0.0.1
+-- Generation Time: Aug 25, 2022 at 12:54 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -62,7 +62,7 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`id`, `booking_id`, `user_email`, `card_number`, `transaction_id`, `amount`, `date`) VALUES
-(1, 6, 'test@gmail.com', '1234567123456789', '123456', 8500, '2022-08-11 20:06:25');
+(10, 23, 'test@gmail.com', '1234567890123456', '80123428', 8563, '2022-08-25 08:18:08');
 
 -- --------------------------------------------------------
 
@@ -77,6 +77,7 @@ CREATE TABLE `tblbooking` (
   `FromDate` varchar(100) DEFAULT NULL,
   `ToDate` varchar(100) DEFAULT NULL,
   `amount` int(11) DEFAULT 0,
+  `persons` int(11) DEFAULT NULL,
   `Comment` mediumtext DEFAULT NULL,
   `RegDate` timestamp NULL DEFAULT current_timestamp(),
   `status` int(11) DEFAULT NULL,
@@ -88,9 +89,9 @@ CREATE TABLE `tblbooking` (
 -- Dumping data for table `tblbooking`
 --
 
-INSERT INTO `tblbooking` (`BookingId`, `PackageId`, `UserEmail`, `FromDate`, `ToDate`, `amount`, `Comment`, `RegDate`, `status`, `CancelledBy`, `UpdationDate`) VALUES
-(5, 1, 'test@gmail.com', '2022-08-13', '2022-08-14', 1234, 's', '2022-08-11 19:21:59', 0, NULL, NULL),
-(6, 1, 'test@gmail.com', '2022-08-13', '2022-08-14', 8500, 'rahul', '2022-08-11 19:24:04', 1, NULL, '2022-08-11 20:25:49');
+INSERT INTO `tblbooking` (`BookingId`, `PackageId`, `UserEmail`, `FromDate`, `ToDate`, `amount`, `persons`, `Comment`, `RegDate`, `status`, `CancelledBy`, `UpdationDate`) VALUES
+(23, 1, 'test@gmail.com', '2022-08-25', '2022-08-26', 8563, 3, 'test 0', '2022-08-25 08:16:30', 2, 'a', '2022-08-25 08:40:20'),
+(24, 1, 'test@gmail.com', '2022-08-25', '2022-08-26', 8584, 4, 'test 1', '2022-08-25 08:37:44', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -114,9 +115,7 @@ CREATE TABLE `tblenquiry` (
 --
 
 INSERT INTO `tblenquiry` (`id`, `FullName`, `EmailId`, `MobileNumber`, `Subject`, `Description`, `PostingDate`, `Status`) VALUES
-(1, 'Jone Paaire', 'jone@gmail.com', '4646464646', 'Enquiry for Manali Trip', 'Kindly provide me more offer.', '2020-07-08 06:30:32', 1),
-(2, 'Kishan Twaerea', 'kishan@gmail.com', '6797947987', 'Enquiry', 'Any Offer for North Trip', '2020-07-08 06:31:38', NULL),
-(3, 'Jacaob', 'Jai@gmail.com', '1646689721', 'Any offer for North', 'Any Offer for north', '2020-07-08 06:32:41', 1);
+(4, 'JyothiRanjan Kumar', 'joshith25298@gmail.com', '7397229300', 'mail testing', 'test', '2022-08-15 14:49:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -133,19 +132,6 @@ CREATE TABLE `tblissues` (
   `AdminRemark` mediumtext DEFAULT NULL,
   `AdminremarkDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tblissues`
---
-
-INSERT INTO `tblissues` (`id`, `UserEmail`, `Issue`, `Description`, `PostingDate`, `AdminRemark`, `AdminremarkDate`) VALUES
-(1, NULL, NULL, NULL, '2020-07-08 06:33:20', NULL, NULL),
-(2, NULL, NULL, NULL, '2020-07-08 06:33:56', NULL, NULL),
-(3, NULL, NULL, NULL, '2020-07-08 06:34:20', NULL, NULL),
-(4, NULL, NULL, NULL, '2020-07-08 06:34:38', NULL, NULL),
-(5, NULL, NULL, NULL, '2020-07-08 06:35:06', NULL, NULL),
-(6, 'test@gmail.com', 'Booking Issues', 'I am not able to book package', '2020-07-08 06:36:03', 'Ok, We will fix the issue asap', '2020-07-08 06:55:22'),
-(7, 'test@gmail.com', 'Refund', 'I want my refund', '2020-07-08 06:56:29', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -184,6 +170,7 @@ CREATE TABLE `tbltourpackages` (
   `PackageFetures` varchar(255) DEFAULT NULL,
   `PackageDetails` mediumtext DEFAULT NULL,
   `perday` int(11) DEFAULT 0,
+  `perperson` int(11) DEFAULT 0,
   `PackageImage` varchar(100) DEFAULT NULL,
   `Creationdate` timestamp NULL DEFAULT current_timestamp(),
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -193,16 +180,16 @@ CREATE TABLE `tbltourpackages` (
 -- Dumping data for table `tbltourpackages`
 --
 
-INSERT INTO `tbltourpackages` (`PackageId`, `PackageName`, `PackageType`, `PackageLocation`, `PackagePrice`, `PackageFetures`, `PackageDetails`, `perday`, `PackageImage`, `Creationdate`, `UpdationDate`) VALUES
-(1, 'Swiss Paris Delight Premium 2020 (Group Package)', 'Group Package', 'Paris and Switzerland', 6000, ' Round trip Economy class airfare valid for the duration of the holiday - Airport taxes - Accommodation for 3 nights in Paris and 3 nights in scenic Switzerland - Enjoy continental breakfasts every morning - Enjoy 5 Indian dinners in Mainland Europe - Exp', 'Pick this holiday for a relaxing vacation in Paris and Switzerland. Your tour embarks from Paris. Enjoy an excursion to popular attractions like the iconic Eiffel Tower. After experiencing the beautiful city, you will drive past mustard fields through Burgundy to reach Switzerland. While there, you can opt for a tour to Interlaken and then to the Trummelbach Falls. Photostop at Zurich Lake and a cable car ride to Mt. Titlis are the main highlights of the holiday.', 2500, '1581490262_2_1.jpg', '2020-07-08 05:21:58', '2022-08-11 19:03:27'),
-(2, 'Bhutan Holidays - Thimphu and Paro Special', 'Family Package', 'Bhutan', 3000, 'Free Wi-fi, Free Breakfast, Free Pickup and drop facility ', 'Visit to Tiger\'s Nest Monastery | Complimentary services of a Professional Guide', 0, 'BHUTAN-THIMPU-PARO-PUNAKHA-TOUR-6N-7D.jpeg', '2020-07-08 05:37:40', '2020-07-08 06:09:01'),
-(3, 'Soulmate Special Bali - 7 Nights', 'Couple Package', 'Indonesia(Bali)', 5000, 'Free Pickup and drop facility, Free Wi-fi , Free professional guide', 'Airport transfers by private car | Popular Sightseeing included | Suitable for Couple and budget travelers', 10, '1583140977_5_11.jpg', '2020-07-08 05:41:07', '2022-08-11 20:20:39'),
-(4, 'Kerala - A Lovers Paradise - Value Added', 'Family Package', 'Kerala', 1000, 'Free Wi-fi, Free pick up and drop facility,', 'Visit Matupetty Dam, tea plantation and a spice garden | View sunset in Kanyakumari | AC Car at disposal for 2hrs extra (once per city)', 0, 'images (2).jpg', '2020-07-08 05:45:58', NULL),
-(5, 'Short Trip To Dubai', 'Family', 'Dubai', 4500, 'Free pick up and drop facility, Free Wi-fi, Free breakfast', 'A Holiday Package for the entire family.', 0, 'unnamed.jpg', '2020-07-08 05:49:13', NULL),
-(6, 'Sikkim Delight with Darjeeling (customizable)', 'Group', 'Sikkim', 3500, 'Free Breakfast, Free Pick up drop facility', 'Changu Lake and New Baba Mandir excursion | View the sunrise from Tiger Hill | Get Blessed at the famous Rumtek Monastery', 0, 'download (2).jpg', '2020-07-08 05:51:26', NULL),
-(7, '6 Days in Guwahati and Shillong With Cherrapunji Excursion', 'Family Package', 'Guwahati(Sikkim)', 4500, 'Breakfast,  Accommodation » Pick-up » Drop » Sightseeing', 'After arrival at Guwahati airport meet our representative & proceed for Shillong. Shillong is the capital and hill station of Meghalaya, also known as Abode of Cloud, one of the smallest states in India. En route visit Barapani lake. By afternoon reach at Shillong. Check in to the hotel. Evening is leisure. Spent time as you want. Visit Police bazar. Overnight stay at Shillong.', 0, '95995.jpg', '2020-07-08 05:54:42', NULL),
-(8, 'Grand Week in North East - Lachung, Lachen and Gangtok', 'Domestic Packages', 'Sikkim', 4500, 'Free Breakfast, Free Wi-fi', 'Changu Lakeand New Baba Mandir excursion | Yumthang Valley tour | Gurudongmar Lake excursion | Night stay in Lachen', 0, 'download (3).jpg', '2020-07-08 06:05:24', NULL),
-(9, 'Gangtok & Darjeeling Holiday (Without Flights)', 'Family Package', 'Sikkim', 1000, 'Free Wi-fi, Free pickup and drop facility', 'Ideal tour for Family | Sightseeing in Gangtok and Darjeeling | Full day excursion to idyllic Changu Lake | Visit to Ghoom Monastery', 0, '1540382781_shutterstock_661867435.jpg.jpg', '2020-07-08 06:07:48', NULL);
+INSERT INTO `tbltourpackages` (`PackageId`, `PackageName`, `PackageType`, `PackageLocation`, `PackagePrice`, `PackageFetures`, `PackageDetails`, `perday`, `perperson`, `PackageImage`, `Creationdate`, `UpdationDate`) VALUES
+(1, 'Swiss Paris Delight Premium 2020 (Group Package)', 'Group Package', 'Paris and Switzerland', 6000, ' Round trip Economy class airfare valid for the duration of the holiday - Airport taxes - Accommodation for 3 nights in Paris and 3 nights in scenic Switzerland - Enjoy continental breakfasts every morning - Enjoy 5 Indian dinners in Mainland Europe - Exp', 'Pick this holiday for a relaxing vacation in Paris and Switzerland. Your tour embarks from Paris. Enjoy an excursion to popular attractions like the iconic Eiffel Tower. After experiencing the beautiful city, you will drive past mustard fields through Burgundy to reach Switzerland. While there, you can opt for a tour to Interlaken and then to the Trummelbach Falls. Photostop at Zurich Lake and a cable car ride to Mt. Titlis are the main highlights of the holiday.', 2500, 1000, '1581490262_2_1.jpg', '2020-07-08 05:21:58', '2022-08-25 10:47:21'),
+(2, 'Bhutan Holidays - Thimphu and Paro Special', 'Family Package', 'Bhutan', 3000, 'Free Wi-fi, Free Breakfast, Free Pickup and drop facility ', 'Visit to Tiger\'s Nest Monastery | Complimentary services of a Professional Guide', 200, 1000, 'BHUTAN-THIMPU-PARO-PUNAKHA-TOUR-6N-7D.jpeg', '2020-07-08 05:37:40', '2022-08-25 10:47:27'),
+(3, 'Soulmate Special Bali - 7 Nights', 'Couple Package', 'Indonesia(Bali)', 5000, 'Free Pickup and drop facility, Free Wi-fi , Free professional guide', 'Airport transfers by private car | Popular Sightseeing included | Suitable for Couple and budget travelers', 10, 1000, '1583140977_5_11.jpg', '2020-07-08 05:41:07', '2022-08-25 10:47:32'),
+(4, 'Kerala - A Lovers Paradise - Value Added', 'Family Package', 'Kerala', 1000, 'Free Wi-fi, Free pick up and drop facility,', 'Visit Matupetty Dam, tea plantation and a spice garden | View sunset in Kanyakumari | AC Car at disposal for 2hrs extra (once per city)', 200, 1000, 'images (2).jpg', '2020-07-08 05:45:58', '2022-08-25 10:47:35'),
+(5, 'Short Trip To Dubai', 'Family', 'Dubai', 4500, 'Free pick up and drop facility, Free Wi-fi, Free breakfast', 'A Holiday Package for the entire family.', 200, 1000, 'unnamed.jpg', '2020-07-08 05:49:13', '2022-08-25 10:47:41'),
+(6, 'Sikkim Delight with Darjeeling (customizable)', 'Group', 'Sikkim', 3500, 'Free Breakfast, Free Pick up drop facility', 'Changu Lake and New Baba Mandir excursion | View the sunrise from Tiger Hill | Get Blessed at the famous Rumtek Monastery', 0, 1000, 'download (2).jpg', '2020-07-08 05:51:26', '2022-08-25 10:47:38'),
+(7, '6 Days in Guwahati and Shillong With Cherrapunji Excursion', 'Family Package', 'Guwahati(Sikkim)', 4500, 'Breakfast,  Accommodation » Pick-up » Drop » Sightseeing', 'After arrival at Guwahati airport meet our representative & proceed for Shillong. Shillong is the capital and hill station of Meghalaya, also known as Abode of Cloud, one of the smallest states in India. En route visit Barapani lake. By afternoon reach at Shillong. Check in to the hotel. Evening is leisure. Spent time as you want. Visit Police bazar. Overnight stay at Shillong.', 0, 1000, '95995.jpg', '2020-07-08 05:54:42', '2022-08-25 10:47:46'),
+(8, 'Grand Week in North East - Lachung, Lachen and Gangtok', 'Domestic Packages', 'Sikkim', 4500, 'Free Breakfast, Free Wi-fi', 'Changu Lakeand New Baba Mandir excursion | Yumthang Valley tour | Gurudongmar Lake excursion | Night stay in Lachen', 0, 1000, 'download (3).jpg', '2020-07-08 06:05:24', '2022-08-25 10:47:50'),
+(9, 'Gangtok & Darjeeling Holiday (Without Flights)', 'Family Package', 'Sikkim', 1000, 'Free Wi-fi, Free pickup and drop facility', 'Ideal tour for Family | Sightseeing in Gangtok and Darjeeling | Full day excursion to idyllic Changu Lake | Visit to Ghoom Monastery', 0, 1000, '1540382781_shutterstock_661867435.jpg.jpg', '2020-07-08 06:07:48', '2022-08-25 10:47:53');
 
 -- --------------------------------------------------------
 
@@ -225,10 +212,6 @@ CREATE TABLE `tblusers` (
 --
 
 INSERT INTO `tblusers` (`id`, `FullName`, `MobileNumber`, `EmailId`, `Password`, `RegDate`, `UpdationDate`) VALUES
-(1, 'Manju Srivatav', '4456464654', 'manju@gmail.com', '123', '2020-07-08 06:33:20', '2022-08-11 18:21:00'),
-(2, 'Kishan', '9871987979', 'kishan@gmail.com', '123', '2020-07-08 06:33:56', '2022-08-11 18:21:04'),
-(3, 'Salvi Chandra', '1398756416', 'salvi@gmail.com', '123', '2020-07-08 06:34:20', '2022-08-11 18:21:07'),
-(4, 'Abir', '4789756456', 'abir@gmail.com', '123', '2020-07-08 06:34:38', '2022-08-11 18:21:10'),
 (5, 'Test', '1987894654', 'test@gmail.com', '123', '2020-07-08 06:35:06', '2022-08-11 18:21:16');
 
 --
@@ -245,13 +228,16 @@ ALTER TABLE `admin`
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `booking_id_fkey` (`booking_id`);
 
 --
 -- Indexes for table `tblbooking`
 --
 ALTER TABLE `tblbooking`
-  ADD PRIMARY KEY (`BookingId`);
+  ADD PRIMARY KEY (`BookingId`),
+  ADD KEY `package_fkey` (`PackageId`),
+  ADD KEY `user_id_fkey` (`UserEmail`);
 
 --
 -- Indexes for table `tblenquiry`
@@ -263,7 +249,8 @@ ALTER TABLE `tblenquiry`
 -- Indexes for table `tblissues`
 --
 ALTER TABLE `tblissues`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_email_fkey` (`UserEmail`);
 
 --
 -- Indexes for table `tblpages`
@@ -299,25 +286,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tblbooking`
 --
 ALTER TABLE `tblbooking`
-  MODIFY `BookingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `BookingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tblenquiry`
 --
 ALTER TABLE `tblenquiry`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tblissues`
 --
 ALTER TABLE `tblissues`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tblpages`
@@ -329,13 +316,36 @@ ALTER TABLE `tblpages`
 -- AUTO_INCREMENT for table `tbltourpackages`
 --
 ALTER TABLE `tbltourpackages`
-  MODIFY `PackageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `PackageId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tblusers`
 --
 ALTER TABLE `tblusers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `booking_id_fkey` FOREIGN KEY (`booking_id`) REFERENCES `tblbooking` (`BookingId`);
+
+--
+-- Constraints for table `tblbooking`
+--
+ALTER TABLE `tblbooking`
+  ADD CONSTRAINT `package_fkey` FOREIGN KEY (`PackageId`) REFERENCES `tbltourpackages` (`PackageId`),
+  ADD CONSTRAINT `user_id_fkey` FOREIGN KEY (`UserEmail`) REFERENCES `tblusers` (`EmailId`);
+
+--
+-- Constraints for table `tblissues`
+--
+ALTER TABLE `tblissues`
+  ADD CONSTRAINT `user_email_fkey` FOREIGN KEY (`UserEmail`) REFERENCES `tblusers` (`EmailId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

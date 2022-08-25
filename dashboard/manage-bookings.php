@@ -20,22 +20,6 @@ if (strlen($_SESSION['alogin']) == 0) {
         $msg = "Booking Cancelled successfully";
     }
 
-
-    if (isset($_REQUEST['bckid'])) {
-        $bcid = intval($_GET['bckid']);
-        $status = 1;
-        $cancelby = 'a';
-        $sql = "UPDATE tblbooking SET status=:status WHERE BookingId=:bcid";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->bindParam(':bcid', $bcid, PDO::PARAM_STR);
-        $query->execute();
-        $msg = "Booking Confirm successfully";
-    }
-
-
-
-
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -63,9 +47,19 @@ if (strlen($_SESSION['alogin']) == 0) {
         <!-- Custom fonts for this template -->
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
         <!-- Custom styles for this template -->
         <link href="css/nli-2.min.css" rel="stylesheet">
+        <style>
+            .material-symbols-outlined {
+                font-variation-settings:
+                    'FILL'0,
+                    'wght'400,
+                    'GRAD'0,
+                    'opsz'48
+            }
+        </style>
 
         <script type="text/javascript">
             $(document).ready(function() {
@@ -256,12 +250,12 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                 <th>Name</th>
                                                 <th>Mobile No.</th>
                                                 <th>Email Id</th>
-                                                <th>RegDate </th>
+                                                <th>Package</th>
                                                 <th>From /To </th>
                                                 <th>No.of Persons </th>
                                                 <th>Comment </th>
                                                 <th>Status </th>
-                                                <th>Action </th>
+                                                <!-- <th>Action </th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -281,35 +275,48 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                         <td><?php echo htmlentities($result->fdate); ?> To <?php echo htmlentities($result->tdate); ?></td>
                                                         <td><?php echo htmlentities($result->persons); ?></td>
                                                         <td><?php echo htmlentities($result->comment); ?></td>
-                                                        <td><?php if ($result->status == 0) {
-                                                                echo " No Action";
-                                                            }
-                                                            if ($result->status == 1) {
-                                                                echo "Confirmed.";
-                                                            ?>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <?php
+                                                                    if ($result->status == 1) {
+                                                                        echo "Confirmed.";
+                                                                    ?>
 
 
-                                                            <?php
-                                                            }
-                                                            if ($result->status == 2 and  $result->cancelby == 'a') {
-                                                                echo "Canceled by you at " . $result->upddate;
-                                                            }
-                                                            if ($result->status == 2 and $result->cancelby == 'u') {
-                                                                echo "Canceled by User at " . $result->upddate;
-                                                            }
-                                                            if ($result->date) {
+                                                                        <?php
+                                                                    }
+                                                                    if ($result->status == 2 and  $result->cancelby == 'a') {
+                                                                        echo "Canceled by you at " . $result->upddate;
+                                                                    }
+                                                                    if ($result->status == 2 and $result->cancelby == 'u') {
+                                                                        echo "Canceled by User at " . $result->upddate;
+                                                                    }
+                                                                    if ($result->date) { {
 
-                                                            ?>
-                                                                <a style="cursor:pointer;color:red;font-size:14px; text-decoration: underline;" onclick="fillModal( '<?= Date('jS-M-Y h:m A', strtotime($result->date)) ?>','<?= $result->transaction_id ?>','<?= $result->amount ?>')"> Payment Details </a>
 
-                                                            <?php } ?>
+                                                                        ?>
+                                                                            <br> <a style="cursor:pointer;color:red;font-size:14px; text-decoration: underline;" onclick="fillModal( '<?= Date('jS-M-Y h:m A', strtotime($result->date)) ?>','<?= $result->transaction_id ?>','<?= $result->amount ?>')"> Payment Details </a>
+
+                                                                    <?php }
+                                                                    } else {
+                                                                        echo "<br><span style='color:red; font-size:14px;'>Payment Pending</span>";
+                                                                    }
+                                                                    ?>
+                                                                </div>
+                                                                <div class="">
+                                                                   <a style="cursor:pointer;"> <span class="material-symbols-outlined">
+                                                                        more_vert
+                                                                    </span></a>
+                                                                </div>
+                                                            </div>
                                                         </td>
 
-                                                        <?php if ($result->status == 2) {
+                                                        <!-- <?php if ($result->status == 2) {
                                                         ?><td>Cancelled</td>
                                                         <?php } else { ?>
-                                                            <td><a href="manage-bookings.php?bkid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Cancel</a> / <a href="manage-bookings.php?bckid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('booking has been confirm')">Confirm</a></td>
-                                                        <?php } ?>
+                                                            <td><a href="manage-bookings.php?bkid=<?php echo htmlentities($result->bookid); ?>" onclick="return confirm('Do you really want to cancel booking')">Cancel</a></td>
+                                                        <?php } ?> -->
 
                                                     </tr>
                                             <?php $cnt = $cnt + 1;
